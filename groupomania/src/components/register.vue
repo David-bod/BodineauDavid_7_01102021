@@ -1,24 +1,25 @@
 <template>
     
     <form @submit="handlerSubmit">
-        <h3>Sign up</h3>
+        <h3>Inscription</h3>
 
         <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" v-model="name" placeholder="Name" minlength="2" required/>
+            <label>Prénom ou pseudo</label>
+            <input type="text" class="form-control" v-model="name" placeholder="Julien" minlength="2" required/>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" v-model="email" placeholder="email@email.com" minlength="5" required/>
+            <label>Adresse mail</label>
+            <input type="email" class="form-control" v-model="email" placeholder="Adresse e-mail" minlength="5" required/>
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" v-model="password" placeholder="password" minlength="7" required/>
+            <label>Mot de passe</label>
+            <input type="password" class="form-control" v-model="password" placeholder="Mot de passe" minlength="7" required/>
         </div>
 
-        <button class="btn btn-primary btn-block">Sign up !</button>
+        <button class="btn btn-success btn-block">Je m'inscris !</button>
+        <a href="http://localhost:8080/" class="btn btn-dark btn-block"><i class="fas fa-arrow-left"></i> Retourner à l'accueil</a>
 
     </form>
 

@@ -1,6 +1,13 @@
 <template>
 
-    <h3>Home</h3>
+    <div class="container">
+        <figure>
+            <img id="img_home" src="../img/logo_groupomania/icon-above-font.png" alt="Logo du groupe Groupomania" title="Groupomania">
+        </figure>
+
+        <a href="login" class="btn btn-dark btn-block">Se connecter</a><br>
+        <a href="register" class="btn btn-dark btn-block">S'inscrire</a>
+    </div>
 
 </template>
 
@@ -11,3 +18,18 @@
     }
 
 </script>
+
+<style>
+
+h1, figure{
+    margin: 0;
+}
+
+#img_home{
+    max-width: 300px;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 10px 1px rgb(88, 66, 66);
+    border-radius: 50%;
+}
+
+</style>

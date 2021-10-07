@@ -13,9 +13,11 @@
 <script>
 
 import navi from './components/navi.vue'
+import home from './components/home.vue'
 
 export default {
   name: 'App',
+  home,
   components: {
     navi
   }
@@ -85,18 +87,6 @@ body, html, #app, #root, .auth-wrapper{
 
 .custom-control-label{
   font-weight: 400;
-}
-
-.forgot-password a{
-  text-align: right;
-  font-size: 13px;
-  padding-top: 10px;
-  color: #7f7d7d;
-  margin: 0;
-}
-
-.forgot-password a{
-  color: #d1515a;
 }
 
 </style>
