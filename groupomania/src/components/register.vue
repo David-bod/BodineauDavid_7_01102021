@@ -1,6 +1,6 @@
 <template>
     
-    <form @submit="handlerSubmit">
+    <form @submit="handlerSubmit" class="connexion">
         <h3>Inscription</h3>
 
         <div class="form-group">

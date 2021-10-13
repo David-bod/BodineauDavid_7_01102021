@@ -26,7 +26,7 @@ h1, figure{
 }
 
 #img_home{
-    max-width: 300px;
+    max-width: 200px;
     margin-bottom: 50px;
     box-shadow: 0px 0px 10px 1px rgb(88, 66, 66);
     border-radius: 50%;

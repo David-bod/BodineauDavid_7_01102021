@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form class="connexion">
         <h3>Connexion</h3>
 
         <div class="form-group">
@@ -23,3 +23,16 @@
         name: 'login'
     }
 </script>
+
+<style>
+
+.connexion {
+    max-width: 350px;
+    margin: auto;
+}
+
+.auth-inner {
+    padding: 25px;
+}
+
+</style>

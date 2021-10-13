@@ -18,8 +18,8 @@
 
 <script>
 
-    export default {
-        name: 'navi'
-    }
+  export default {
+    name: 'navi'
+  }
 
 </script>

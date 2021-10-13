@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import home from './components/home.vue'
 import login from './components/login.vue'
 import register from './components/register.vue'
+import posts from './components/posts.vue'
 
 Vue.use(Router)
 
@@ -11,6 +12,7 @@ export default new Router({
     routes: [
         {path: '/', component: home},
         {path: '/login', component: login},
-        {path: '/register', component: register}
+        {path: '/register', component: register},
+        {path: '/groupomania', component: posts}
     ]
 })

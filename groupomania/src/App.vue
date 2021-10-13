@@ -7,6 +7,7 @@
          <router-view />
        </div>
      </div>
+     <footerb />
   </div>
 </template>
 
@@ -14,12 +15,14 @@
 
 import navi from './components/navi.vue'
 import home from './components/home.vue'
+import footerb from './components/footer.vue'
 
 export default {
   name: 'App',
   home,
   components: {
-    navi
+    navi,
+    footerb
   }
 }
 
@@ -42,7 +45,7 @@ h1, h2, h3, h4, h5, h6, label, span {
   font-weight: 500;
 }
 
-body, html, #app, #root, .auth-wrapper{
+body, html, #app, .auth-wrapper{
   width: 100%;
   height: 100%;
 }
@@ -61,11 +64,14 @@ body, html, #app, #root, .auth-wrapper{
   justify-content: center;
   flex-direction: column;
   text-align: center;
+  align-items: center;
 }
 
 .auth-inner{
-  width: 450px;
-  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin-right: 15px;
+  margin-left: 15px;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
