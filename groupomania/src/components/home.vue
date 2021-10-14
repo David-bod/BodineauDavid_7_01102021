@@ -5,8 +5,8 @@
             <img id="img_home" src="../img/logo_groupomania/icon-above-font.png" alt="Logo du groupe Groupomania" title="Groupomania">
         </figure>
 
-        <a href="login" class="btn btn-dark btn-block">Se connecter</a><br>
-        <a href="register" class="btn btn-dark btn-block">S'inscrire</a>
+        <a href="login" class="btn btn-danger btn-block max">Se connecter</a><br>
+        <a href="register" class="btn btn-danger btn-block max">S'inscrire</a>
     </div>
 
 </template>
@@ -30,6 +30,12 @@ h1, figure{
     margin-bottom: 50px;
     box-shadow: 0px 0px 10px 1px rgb(88, 66, 66);
     border-radius: 50%;
+    margin-top: 25px;
+}
+
+.max {
+    max-width: 300px;
+    margin: auto;
 }
 
 </style>

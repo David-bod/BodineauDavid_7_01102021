@@ -2,8 +2,8 @@
   <div id="app">
     <navi />
 
-     <div class="auth-wrapper">
-       <div class="auth-inner">
+     <div class="auth-wrapper0">
+       <div class="auth-inner0">
          <router-view />
        </div>
      </div>
@@ -59,7 +59,7 @@ body, html, #app, .auth-wrapper{
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
-.auth-wrapper{
+.auth-wrapper0{
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -67,16 +67,13 @@ body, html, #app, .auth-wrapper{
   align-items: center;
 }
 
-.auth-inner{
-  width: 100%;
+.auth-inner0{
+  width: 98%;
+  height: 85%;
   max-width: 1200px;
-  margin-right: 15px;
-  margin-left: 15px;
-  background: #ffffff;
-  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-  padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all .3s;
+  margin-top: 50px;
 }
 
 .auth-wrapper .form-control:focus{
@@ -93,6 +90,12 @@ body, html, #app, .auth-wrapper{
 
 .custom-control-label{
   font-weight: 400;
+}
+
+@media screen and (max-width: 1100px) {
+  .auth-inner {
+    
+  }
 }
 
 </style>

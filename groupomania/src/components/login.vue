@@ -29,6 +29,11 @@
 .connexion {
     max-width: 350px;
     margin: auto;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: rgb(255, 255, 255);
 }
 
 .auth-inner {

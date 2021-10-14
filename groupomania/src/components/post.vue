@@ -8,17 +8,14 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora dolores dolor expedita, voluptate numquam neque aut, laboriosam nisi rem blanditiis pariatur, excepturi iusto cumque consectetur quasi a eaque ducimus. Hic.</p>
         <div class="section-comment">
             <input type="text" class="comment" placeholder="Cliquez ici pour commenter"/>
-            <button class="btn btn-dark" title="Envoyer un commentaire sur ce post">Envoyer</button>
+            <button class="btn btn-success" title="Envoyer un commentaire sur ce post">Envoyer</button>
         </div>
         <div class="moderation">
-            <a href="#" title="Supprimer le post (irréverssible)"><i class="fas fa-times delete-post"></i></a>
+            <button class="btn btn-secondary modo-btn" title="Modifier le post">Modifier le post</button>
+            <button class="btn btn-danger modo-btn" title="Supprimer le post (irréverssible)">Supprimer le post</button>
         </div>
         <div class="reaction-modo">
             <div class="reaction">
-                <div class="dislike-block">
-                    <a href="#" class="click-dis" title="Mettre un Dislike"><i class="fas fa-heart-broken"></i></a>
-                    <p class="count-dislike">2</p>
-                </div>
                 <div class="like-block">
                     <a href="#" class="click-like" title="Mettre un Like"><i class="fas fa-heart"></i></a>
                     <p class="count-like">0</p>
@@ -40,8 +37,6 @@ export default {
 #post {
     background: rgb(255, 246, 233);
     padding: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
     margin-top: 10px;
     border-radius: 5px;
     border: 1px solid rgb(255, 234, 205);
@@ -86,21 +81,21 @@ h4, h5 {
     flex-direction: row;
 }
 
+.modo-btn {
+    margin-top: 10px;
+}
+
 i {
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.click-dis {
-    color: brown;
-}
-
 .click-like {
-    color: green;
+    color: rgb(255, 0, 0);
 }
 
-.delete-post {
-    color: red;
-    font-size: 1.4em;
+.btn-secondary {
+    margin-right: 10px;
 }
+
 </style>

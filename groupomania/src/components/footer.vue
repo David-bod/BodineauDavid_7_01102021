@@ -1,6 +1,6 @@
 <template>
     <div class="navbar-expand navbar-light">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto footer-line">
             <li class="nav-item">
                 <a href="http://localhost:8080/" class="nav-link">Accueil</a>
             </li>
@@ -24,3 +24,11 @@ export default {
 }
 
 </script>
+
+<style>
+
+.footer-line {
+    margin-top: 25px;
+}
+
+</style>
