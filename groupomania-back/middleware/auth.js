@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
+const mysql_con = require('../mysql_con.js');
 
 module.exports = (req, res, next) => {
   try {

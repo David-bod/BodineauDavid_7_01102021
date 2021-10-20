@@ -1,6 +1,6 @@
 <template>
     
-    <form @submit="handlerSubmit" class="connexion">
+    <form @submit="registerSubmit" class="connexion" onsubmit="return false;">
         <h3>Inscription</h3>
 
         <div class="form-group">
@@ -37,13 +37,15 @@ export default {
         }
     },
     methods: {
-        handlerSubmit(){
+        registerSubmit(){
             const data = {
                 name: this.name,
                 email: this.email,
                 password: this.password
             }
-            console.log(data);
+            fetch('http://localhost:3000/register', {
+                method: "POST", body: JSON.stringify(data), headers: {"Content-type": "application/json; charset=UTF-8"}
+            }).catch(err => console.log(err));
         }
     }
 }

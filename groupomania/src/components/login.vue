@@ -1,5 +1,5 @@
 <template>
-    <form class="connexion">
+    <form @submit="loginSubmit" class="connexion">
         <h3>Connexion</h3>
 
         <div class="form-group">
@@ -20,7 +20,24 @@
 
 <script>
     export default {
-        name: 'login'
+        name: 'login',
+        data() {
+            return {
+                email : '',
+                password: ''
+            }
+        },
+        methods: {
+            loginSubmit(){
+                const data = {
+                    email: this.email,
+                    password: this.password
+                }
+                fetch('http://localhost:3000/login', {
+                method: "POST", body: JSON.stringify(data), headers: {"Content-type": "application/json; charset=UTF-8"}
+                }).catch(err => console.log(err));
+            }
+        }
     }
 </script>
 

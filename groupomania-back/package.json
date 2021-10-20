@@ -20,6 +20,6 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.13",
     "password-validator": "^5.1.1",
-    "sequelize": "^6.6.5"
+    "sqlite3": "^5.0.2"
   }
 }
