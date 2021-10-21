@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/users');
+const postsRoutes = require('./routes/posts');
 
 const app = express();
 
@@ -15,24 +16,16 @@ app.use(bodyParser.json());
 
 app.post('/register', userRoutes);
 app.post('/login', userRoutes);
+app.get('/groupomania', postsRoutes);
 
 app.use((req, res, next) => {
-    console.log('Requête reçue !');
+    console.log('Requête OK.');
     next();
 });
   
 app.use((req, res, next) => {
     res.status(201);
     next();
-});
-  
-app.use((req, res, next) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
-    next();
-});
-  
-app.use((req, res, next) => {
-    console.log('Réponse envoyée avec succès !');
 });
 
 module.exports = app;

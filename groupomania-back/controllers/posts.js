@@ -1,12 +1,14 @@
 const posts = require('../models/posts');
-const fs = require('fs');
+const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
+const mysql_con = require('../mysql_con');
 
 exports.createPost = async (req, res, next) => {
 
 };
 
-exports.getAllUsers = async (req, res, next) => {
-
+exports.getAllPosts = async (req, res, next) => {
+    console.log("getAllPosts : OK.");
 };
 
 exports.getUser = async (req, res, next) => {

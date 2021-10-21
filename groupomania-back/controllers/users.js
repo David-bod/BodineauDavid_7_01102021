@@ -4,44 +4,41 @@ const jwt = require('jsonwebtoken'); // créer des tokens d'authentification
 const mysql = require('mysql');
 const router = require('express').Router();
 const mysql_con = require('../mysql_con.js');
+const MaskData = require('maskdata'); // Masquage des emails
 
 let userdb = new User();
 
 exports.signup = (req, res, next) => {
-    console.log("signup / controllers/users.js");
+    //console.log("signup / controllers/users.js");
     let name = req.body.name; let email = req.body.email; let password = req.body.password;
-    bcrypt.hash(password, 10) // Récupère le mot de passe et le hash > 13 passages /
+    const emailMaskOptions = { maskWith: "*", unmaskedStartCharactersBeforeAt: 5, unmaskedEndCharactersAfterAt: 5, maskAtTheRate: false};
+    const emailMask = MaskData.maskEmail2(email, emailMaskOptions);
+    bcrypt.hash(password, 15) // Récupère le mot de passe et le hash > 15 passages /
     .then(hash => {
         console.log("Password hash : " + hash);
-        let userSql = [name, email, hash];
+        let userSql = [name, emailMask, hash];
         userdb.signup(userSql)
-        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(400).json({ error }));
+        .then(() => res.status(201).json({ message: 'Utilisateur créé et enregistré en base de données.' }))
+        .catch(error => res.status(400).json({ message: 'Erreur dans la transmission des infos utilisateurs. ' + error }));
     })
-    .catch(error => res.status(500).json({ error  : "L'utilisateur n'a pas pu s'inscrire"}));
+    .catch(error => res.status(500).json({ message: "L'utilisateur n'a pas pu s'inscrire" }));
 }
 
-exports.login = async (req, res, next) => {
-    User.findOne({ email: req.body.email }) // On recherche l'adresse mail dans la base de données
-    .then(user => {
-        if (!user){
-            return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        bcrypt.compare(req.body.password, user.password)
-        .then(valid => {
-            if (!valid){
-                return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            res.status(200).json({  // L'utilisateur a entré le bon mot de passe
-                userId: user._id, // On renvoie un userID + un token d'authentification
-                token: jwt.sign(
-                    { userId: user._id },
-                    'RANDOM_TOKEN_SECRET',
-                    { expiresIn: '24h' }
-                )
-            });
-        })
-        .catch(error => res.status(500).json({ error }));
+// signup ok
+
+exports.login = (req, res, next) => {
+    //console.log("login / controllers/users.js");
+    let email = req.body.email; let password = req.body.password;
+    const emailMaskOptions = { maskWith: "*", unmaskedStartCharactersBeforeAt: 5, unmaskedEndCharactersAfterAt: 5, maskAtTheRate: false};
+    const emailMask = MaskData.maskEmail2(email, emailMaskOptions);
+    let userSqlLogin = [emailMask];
+    console.log(email + " /pass " + password);
+    userdb.login(userSqlLogin, password)
+    .then((response) => {
+        res.status(200).json({ message: 'Vérification en cours...' })
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch((err) => {
+        res.status(400).json({ message: "La connexion au serveur de vérification a échouée." })
+    })
 }
+

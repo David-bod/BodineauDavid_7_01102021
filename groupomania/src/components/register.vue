@@ -1,6 +1,6 @@
 <template>
     
-    <form @submit="registerSubmit" class="connexion" onsubmit="return false;">
+    <form @submit="registerSubmit" class="connexion">
         <h3>Inscription</h3>
 
         <div class="form-group">

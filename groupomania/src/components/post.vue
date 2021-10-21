@@ -2,7 +2,7 @@
 
     <div id="post">
         <div class="top-comment">
-            <h4>Post de {{ userid }} exemple</h4>
+            <h4>Post de exemple</h4>
             <h5>variable date</h5>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora dolores dolor expedita, voluptate numquam neque aut, laboriosam nisi rem blanditiis pariatur, excepturi iusto cumque consectetur quasi a eaque ducimus. Hic.</p>

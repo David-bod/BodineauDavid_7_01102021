@@ -4,12 +4,12 @@
 
         <div class="form-group">
             <label>Adresse mail</label>
-            <input type="email" class="form-control" placeholder="Adresse e-mail" minlength="5" required/>
+            <input type="email" class="form-control" v-model="email" placeholder="Adresse e-mail" minlength="5" required/>
         </div>
 
         <div class="form-group">
             <label>Mot de passe</label>
-            <input type="password" class="form-control" placeholder="Mot de passe" minlength="7" required/>
+            <input type="password" class="form-control" v-model="password" placeholder="Mot de passe" minlength="7" required/>
         </div>
 
         <button class="btn btn-success btn-block">Je me connecte !</button>
