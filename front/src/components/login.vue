@@ -14,6 +14,7 @@
 
         <button class="btn btn-success btn-block">Je me connecte !</button>
         <a href="http://localhost:8080/" class="btn btn-dark btn-block"><i class="fas fa-arrow-left"></i> Retourner à l'accueil</a>
+        <span id="notvalid"></span>
     </form>
 </template>
 
@@ -35,7 +36,8 @@
                 }
                 fetch('http://localhost:3000/login', {
                 method: "POST", body: JSON.stringify(data), headers: {"Content-type": "application/json; charset=UTF-8"}
-                }).catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
             }
         }
     }
@@ -55,6 +57,11 @@
 
 .auth-inner {
     padding: 25px;
+}
+
+span {
+    color: brown;
+    font-weight: bold;
 }
 
 </style>

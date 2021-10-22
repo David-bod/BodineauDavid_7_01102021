@@ -51,31 +51,4 @@ class User {
     }
 }
 
-    /*
-
-                if (err) { console.log("Erreur récupération des emails. " + err); }
-                let emailList = [];
-                for (recupEmail in result) { emailList.push(result[recupEmail].email); }
-                console.log(emailList);
-                console.log(userSqlLogin);
-                if (emailList.indexOf(userSqlLogin) != 1) { console.log("Email trouvée ! "); }
-
-        bcrypt.compare(req.body.password, user.password)
-        .then(valid => {
-            if (!valid){
-                return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            res.status(200).json({  // L'utilisateur a entré le bon mot de passe
-                userId: user._id, // On renvoie un userID + un token d'authentification
-                token: jwt.sign(
-                    { userId: user._id },
-                    'RANDOM_TOKEN_SECRET',
-                    { expiresIn: '24h' }
-                )
-            });
-        })
-
-    })
-    .catch(error => res.status(500).json({ error }));
-    */
 module.exports = User;
