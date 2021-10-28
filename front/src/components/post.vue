@@ -1,47 +1,161 @@
 <template>
 
-    <div id="post">
+    <div class="post">
+        <article v-for="(post, listPost) in allPosts" v-bind:key="listPost">
         <div class="top-comment">
-            <h4>Post de exemple</h4>
-            <h5>variable date</h5>
+            <h4><a class="profil-clic" href="/profil">{{ post.name }}</a></h4>
+            <h5>Le {{ post.date }} à {{ post.time }}</h5>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora dolores dolor expedita, voluptate numquam neque aut, laboriosam nisi rem blanditiis pariatur, excepturi iusto cumque consectetur quasi a eaque ducimus. Hic.</p>
-        <div class="moderation">
-            <button class="btn btn-danger modo-btn" title="Supprimer le post (irréverssible)">Supprimer le post</button>
-        </div>
+        <p>{{ post.text }}</p>
         <div class="section-comment">
-            <input type="text" class="comment" placeholder="Cliquez ici pour commenter"/>
-            <button class="btn btn-success" title="Envoyer un commentaire sur ce post">Envoyer</button>
+            <form class="sendText" action="#">
+                <textarea type="text" v-model="comment.text" label="Commentaire" minlength="1" maxlength="255" class="comment" placeholder="Cliquez ici pour commenter" required/>
+                <button class="btn btn-success" title="Envoyer un commentaire sur ce post" @click="createComment(post.id)">Envoyer</button>
+            </form>
         </div>
-        <div class="users-comment">
-            <h6>name date</h6>
-            <p class="unique-com">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis ab suscipit soluta voluptatem corrupti
-                 porro culpa ratione ad vitae dolor vero, hic nulla harum excepturi tempora repellendus blanditiis fugiat facere.</p>
+        <button @click="afficherCom(post.id)" class="btn btn-primary btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
+        <div class="users-comment" v-for="(comment, listComment) in allComments" v-bind:key="listComment">
+            <div v-if="post.id == comment.postid">
+                <h6>{{ comment.name }} le {{ comment.date }} <button title="SUPPRIMER LE COMMENTAIRE" class="btn btn-danger btn-sm" @click="deleteComment(comment.id)" v-if="comment.userId == userId || admin == 1"><i class="far fa-trash-alt"></i></button></h6>
+                <p class="unique-com">{{ comment.text }}</p>
+
+            </div>
         </div>
+        <div class="moderation" v-if="post.userId == userId || admin == 1">
+            <button class="btn btn-danger modo-btn btn-sm" title="SUPPRIMER LE POST" @click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+        </div>
+        </article>
     </div>
 
 </template>
 
 <script>
+
+import axios from "axios"
+
 export default {
-    name: 'post'
+    name: 'post',
+    data() {
+        return {
+            userId: localStorage.userId,
+            userName: localStorage.name,
+            admin: localStorage.admin,
+            allPosts: [],
+            allComments: [],
+            text: "",
+            postId: "",
+            commentId: "",
+
+            verifUser: {
+                userId: localStorage.userId
+            },
+            comment: {
+                id: "",
+                text: "",
+                userId: localStorage.userId,
+                name: localStorage.name
+            },
+            dataComment: ""
+        }
+    },
+    methods: {
+        deletePost(pId){
+            this.postId = pId;
+            this.isAdmin = JSON.stringify(this.admin);
+            axios.delete("http://localhost:3000/groupomania/" + pId, + "/admin", this.isAdmin, {headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                let rep = JSON.parse(response.data);
+                console.log(rep.message);
+                window.location.assign('http://localhost:8080/groupomania');
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        },
+        createComment(pId){
+            this.comment.id = this.userId;
+            this.postId = pId;
+            this.dataComment = JSON.stringify(this.comment);
+            axios.post("http://localhost:3000/groupomania/" + pId + "/com", this.dataComment, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                let rep = JSON.parse(response.data);
+                console.log(rep);
+                location.reload();
+            })
+            .catch(error => {
+                console.log(error); 
+                this.message=error;
+            });
+        },
+        afficherCom(pId) {
+            this.postId = pId;
+            axios.get("http://localhost:3000/groupomania/" + pId + "/com", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                console.log("Afficher commentaires.");
+                let coms = JSON.parse(response.data);
+                this.allComments = coms;
+                console.log(coms);
+            })
+            .catch(error => {
+            console.log(error);
+            });
+        },
+        deleteComment(comId) {
+            this.commentId = comId;
+            axios.delete("http://localhost:3000/groupomania/com/" + comId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                let rep = JSON.parse(response.data);
+                console.log(rep.message);
+                location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
+    },
+    mounted() {
+        axios.get("http://localhost:3000/groupomania", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+        .then(response => {
+            let posts = JSON.parse(response.data);
+            this.allPosts = posts;
+            console.log(posts);
+        });
+    }
 }
 </script>
 
 <style>
 
-#post {
-    background: rgb(255, 246, 233);
+.post {
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
-    border: 1px solid rgb(255, 234, 205);
+    max-height: 1000px;
+    background-color: white;
+}
+
+article {
+    margin-bottom: 20px;
+    background: rgb(240, 240, 240);
+    box-shadow: 0px 0px 5px 0.5px rgb(129, 129, 129);
+    padding: 5px;
+    border-radius: 10px;
 }
 
 h4, h5 {
     margin: 0;
     margin-left: 5px;
     margin-top: 5px;
+}
+
+.profil-clic {
+    color: rgb(165, 39, 7);
+}
+
+.profil-clic:hover {
+    text-decoration: none;
+    color: navy;
+    transition: .5s;
 }
 
 .top-comment {
@@ -56,6 +170,10 @@ h4, h5 {
     margin-top: 15px;
 }
 
+textarea {
+    max-height: 50px;
+}
+
 .comment {
     width: 90%;
     min-height: 35px;
@@ -65,11 +183,11 @@ h4, h5 {
 }
 
 .users-comment {
-    margin-top: 15px;
+    border-radius: 10px;
 }
 
 .unique-com {
-    border-bottom: 1px solid black;
+    margin: 0;
 }
 
 .reaction-modo, .dislike-block {
@@ -88,6 +206,10 @@ h4, h5 {
 
 .btn-secondary {
     margin-right: 10px;
+}
+
+.btn-comment {
+    margin-bottom: 10px;
 }
 
 </style>

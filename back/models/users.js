@@ -3,14 +3,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const mysql_con = require('../mysql_con.js');
 
-/*
-name: { type: DataTypes.STRING, allowNull: false, required: true },
-email: { type: DataTypes.STRING, allowNull: false, required : true, unique: true },
-password: { type: DataTypes.STRING, allowNull: false, required: true },
-photoProfil: { type: DataTypes.STRING, allowNull: true }, // Vérifier le DataTypes pour la photo
-isAdmin: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
-*/
-
 class User {
     constructor() {}  
     signup(userSql) {
@@ -21,17 +13,18 @@ class User {
         return new Promise((res, err) => {
             mysql_con.query(insertion, function(err, result) {
                 if (err){ console.log("L'email utilisé existe déjà ! "); }
-                else { console.log("Utilisateur inscrit !"); }
+                else {
+                    console.log("Vous pouvez à présent vous connecter.");
+                }
             })
         })
     }
 
     login(userSqlLogin, password) {
-        console.log("userSqlLogin (models/users.js)");
         console.log("reçu : " + userSqlLogin +" / " + password);
         let recupEmail = "SELECT * FROM users WHERE email = '" + userSqlLogin + "'";
         recupEmail = mysql.format(recupEmail, userSqlLogin);
-        return new Promise((res, error) => {
+        return new Promise((resolve, error) => {
             mysql_con.query(recupEmail, function(err, result) {
                 let list = [result];
                 if (err) { console.log("Erreur lors de la récupération des emails. " + err); }
@@ -40,13 +33,44 @@ class User {
                     bcrypt.compare(password, result[0].password) // Récupère le password dans la row que la bdd a envoyé
                     .then(valid => {
                         console.log("valid password");
-                        if (!valid) { error({ message: "Mot de passe incorrect !" });  console.log("Mot de passe incorrect ! "); }
-                        res({
-                            userId: result[0].id, token: jwt.sign({ userId: result[0].id}, 'RANDOM_TOKEN_SECRET', { expiresIn: '24h'})
+                        if (!valid) return error({ message: "Le mot de passe est incorrect." })
+                        resolve({
+                            userId: result[0].id, 
+                            token: jwt.sign({ 
+                                userId: result[0].id,
+                                admin: result[0].admin
+                            }, 
+                            'RANDOM_TOKEN_SECRET', 
+                            { expiresIn: '24h'}),
+                            admin: result[0].admin,
+                            name: result[0].name,
+                            email: result[0].email
                         })
                     })
                 }
             })
+        })
+    }
+
+    Profil(userSqlProfil){
+        let recupProfil = 'SELECT name, email, admin FROM users WHERE id = ?';
+        recupProfil = mysql.format(recupProfil, userSqlProfil);
+        return new Promise((res, error) =>{
+            mysql_con.query(recupProfil, function(err, result){
+                if (err) return error({ message: "Impossible de voir le profil." });
+                res(result);
+            }) 
+        })
+    }
+
+    deleteProfil(userSqlDeleteProfil){
+        let recupDeleteProfil = 'DELETE FROM users WHERE id = ?'; 
+        recupDeleteProfil = mysql.format(recupDeleteProfil, userSqlDeleteProfil);
+        return new Promise((res, error) =>{
+            mysql_con.query(recupDeleteProfil, function(err, result){
+                if (err) return error({ message: "Impossible de supprimer le profil." });
+                res({ message : "Le profil a été supprimé avec succès." });
+            }) 
         })
     }
 }

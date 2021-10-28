@@ -17,14 +17,14 @@ app.use(bodyParser.json());
 app.post('/register', userRoutes);
 app.post('/login', userRoutes);
 app.get('/groupomania', postsRoutes);
+app.post('/groupomania', postsRoutes);
+app.delete('/groupomania/:id/admin', postsRoutes);
+app.post('/groupomania/:id/com', postsRoutes);
+app.get('/groupomania/:id/com', postsRoutes);
+app.delete('/groupomania/com/:id', postsRoutes);
 
 app.use((req, res, next) => {
-    console.log('Requête OK.');
-    next();
-});
-  
-app.use((req, res, next) => {
-    res.status(201);
+    console.log('Requête en cours...');
     next();
 });
 

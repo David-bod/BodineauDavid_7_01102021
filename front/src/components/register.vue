@@ -1,21 +1,21 @@
 <template>
     
-    <form @submit="registerSubmit" class="connexion">
+    <form @submit="registerSubmit" class="connexion" action="/login">
         <h3>Inscription</h3>
 
         <div class="form-group">
             <label>Prénom ou pseudo</label>
-            <input type="text" class="form-control" v-model="name" placeholder="Julien" minlength="2" required/>
+            <input type="text" class="form-control" label="name" :counter="5" v-model="name" placeholder="Julien" minlength="2" required/>
         </div>
 
         <div class="form-group">
             <label>Adresse mail</label>
-            <input type="email" class="form-control" v-model="email" placeholder="Adresse e-mail" minlength="5" required/>
+            <input type="email" class="form-control" label="E-mail" v-model="email" placeholder="Adresse e-mail" minlength="5" required/>
         </div>
 
         <div class="form-group">
             <label>Mot de passe</label>
-            <input type="password" class="form-control" v-model="password" placeholder="Mot de passe" minlength="7" required/>
+            <input type="password" class="form-control" label="password" v-model="password" placeholder="Mot de passe" minlength="7" required/>
         </div>
 
         <button class="btn btn-success btn-block">Je m'inscris !</button>

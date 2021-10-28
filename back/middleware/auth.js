@@ -8,9 +8,17 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
-
-    if (req.body.userId && req.body.userId !== userId) { throw "L'userId n'est pas reconnu."; } 
-    else { console.log("Requête authentifiée."); next(); }
+    let elem = [userId];
+    let reqSql = "SELECT COUNT(id) FROM users WHERE id=?";
+    reqSql = mysql.format(reqSql, elem);
+    mysql_con.query(reqSql, function(err, result) {
+      if (err) reject({error});
+      if (result[0]['COUNT(id)'] !== 1) {
+          throw 'Token invalide';
+      } else {
+          next();
+      }
+    })
   } catch {
     res.status(401).json({
       error: new Error("Requête refusée !")

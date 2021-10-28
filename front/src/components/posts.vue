@@ -4,8 +4,10 @@
         <div class="zone zone-1">
             <div class="list-posts">
                 <div class="section-comment">
-                    <input type="text" class="comment addpost" placeholder="Cliquez ici pour ajouter du texte"/>
-                    <button class="btn btn-success" title="Envoyer un post">Envoyer</button>
+                    <form class="sendText">
+                        <input type="text" minlength="20" maxlength="500" class="comment addpost" placeholder="Cliquez ici pour ajouter du texte" v-model="dataPost.text" required/>
+                        <button class="btn btn-success" title="Envoyer un post" @click="sendPost()">Envoyer</button>
+                    </form>
                 </div>
                 <post />
             </div>
@@ -13,8 +15,8 @@
 
         <div class="zone zone-2">
             <a href="/profil"><img src="../img/logo_groupomania/profil_defaut.png" class="profil-img" alt="Photo de profil" title="Photo de profil"></a>
-            <p>name</p>
-            <p>adressemail@mail.com</p>
+            <p>{{ userName }}</p>
+            <p>{{ email }}</p>
             <a href="/profil"><button class="btn btn-info modo-btn" title="Regarder ma page de profil">Voir mon profil</button></a>
         </div>
 
@@ -25,16 +27,60 @@
 <script>
 
 import post from './post.vue'
+import axios from "axios"
 
 export default {
     components: {
         post
+    },
+    data() {
+        return {
+            userId: "",
+            userName: localStorage.name,
+            email: localStorage.email,
+            admin: "",
+            allPosts: [], //ajouter allComment apres
+
+            dataPost: {
+                text: "",
+                userId: localStorage.userId
+            },
+            dataSend: ""
+        }
+    },
+    methods: {
+        sendPost() {
+            this.dataSend = JSON.stringify(this.dataPost);
+            axios.post("http://localhost:3000/groupomania", this.dataSend, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                let retour = JSON.parse(response.data);
+                this.message = retour.message;
+                this.$router.push('/groupomania')   
+            })
+            .catch(error => {
+                console.log(error);
+            });
+            location.reload();
+        }
+    },
+    mounted() {
+        axios.get("http://localhost:3000/groupomania", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+        .then(response => {
+            let posts = JSON.parse(response.data);
+            this.allPosts = posts;
+        })
     }
 }
 
 </script>
 
 <style>
+
+.sendText {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+}
 
 .zone-principal{
     display: flex;
@@ -69,6 +115,7 @@ export default {
 }
 
 .list-posts {
+    width: 100%;
     margin-top: 15px;
     margin-left: 2%;
     margin-right: 2%;

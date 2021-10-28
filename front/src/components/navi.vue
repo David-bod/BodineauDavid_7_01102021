@@ -5,10 +5,10 @@
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="login" class="nav-link" title="Connectez-vous ici">Connexion</a>
+              <a href="#" @click="deco()" class="nav-link" title="Se déconnecter">Se déconnecter</a>
             </li>
             <li class="nav-item">
-              <a href="register" class="nav-link" title="Inscrivez-vous si vous n'avez pas de compte">Inscription</a>
+              <a href="groupomania" class="nav-link" title="Connectez-vous ici">Forum</a>
             </li>
           </ul>
         </div> 
@@ -19,7 +19,19 @@
 <script>
 
   export default {
-    name: 'navi'
+    name: 'navi',
+    data() {
+      return {
+        userId: localStorage.userId
+      }
+    },
+    methods: {
+      deco() {
+        console.log("Deconnexion...");
+        localStorage.clear();
+        this.$router.push('/');
+      }
+    }
   }
 
 </script>
