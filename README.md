@@ -1,6 +1,6 @@
 # Groupomania
 
-## Bienvenue sur le réseaux social Groupomania.
+## Bienvenue sur le réseau social Groupomania.
 ______________________________________________
 ### Avant de démarrer l'installation
 
@@ -11,9 +11,9 @@ ______________________________________________
 ______________________________________________
 ### Installer les bases de données MySQL
 
-1. Créez un schéma dans votre logiciel MySQL appelé "groupomania"
-2. Sélectionnez cette base de données en faisant : $USE groupomania
-3. Importez les 3 fichiers .sql dans votre base de données situés dans le fichier "database"
+1. Créez un schéma dans votre logiciel MySQL avec le nom "groupomania"
+2. Sélectionnez cette base de données en faisant : `USE groupomania`
+3. Importez les 3 fichiers .sql dans votre base de données > dans le fichier "database"
 4. Accèdez au fichier mysql_con.js dans le fichier back
 5. Rentrez vos données (nom de database, mot de passe...)
 
