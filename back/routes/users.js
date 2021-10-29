@@ -1,9 +1,8 @@
 const router = require('express').Router(); // Express module router
 const userCtrl = require('../controllers/users'); // Chemin pour les fonctions userCtrl
-const auth = require('../middleware/auth');
+const auth = require('../middleware/auth'); // Chemin pour vérifier l'auth
 
 try {
-console.log("Route /routes/users : ok.");
    router.post("/register", userCtrl.signup); // Route création d'un compte
    router.post("/login", userCtrl.login); // Route connexion
    router.put("/profil", auth, userCtrl.modifyUser) // Modification profil

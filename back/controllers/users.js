@@ -1,9 +1,6 @@
 const User = require('../models/users'); // Modèles des users
 const bcrypt = require('bcrypt'); // Chiffrement mot de passe
 const jwt = require('jsonwebtoken'); // créer des tokens d'authentification
-//const mysql = require('mysql'); // Relier le fichier à la bdd
-//const router = require('express').Router();
-//const mysql_con = require('../mysql_con.js'); // Route vers la connexion MySQL
 const MaskData = require('maskdata'); // Masquage des emails
 
 let userdb = new User();
@@ -38,7 +35,6 @@ exports.login = (req, res, next) => {
 }
 
 exports.modifyUser = (req, res, next) => {
-    console.log("Profil en cours de modification !");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
@@ -49,7 +45,6 @@ exports.modifyUser = (req, res, next) => {
     let userDataEmail = [email];
     let userDataPassword = [password];
     let userDataId = [userId];
-    console.log(userDataName + "/" + userDataEmail + "/" + userDataPassword + "/" + userDataId);
     userdb.modifyUser(userDataName, userDataEmail, userDataPassword, userDataId)
 }
 

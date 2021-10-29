@@ -10,7 +10,7 @@
         <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer mon profil du site" @click="deleteUser">Supprimer mon profil</button>
         <a href="/groupomania"><button class="btn btn-info modo-btn btn-sm" title="Retour sur la page des posts">Retour</button></a>
     </div>
-    <form class="zone-20" action="#">
+    <div class="zone-20">
         <h4>Modifier votre profil</h4>
         <p v-if="newDataUser.email.length >= 5 && newDataUser.password.length >= 5 && newDataUser.name.length >= 2">
             <ul>
@@ -29,8 +29,8 @@
             <label name="password">Mot de passe :</label>
             <input type="password" name="password" v-model="newDataUser.password" @keyup="checkForm" placeholder="Votre mot de passe">
         </div>
-        <button class="btn btn-warning modo-btn btn-sm maxSize" title="Modifier mon profil" :disabled="canModify == false" @click="modifyUser">Modifier mon profil</button>
-    </form>
+        <button class="btn btn-warning modo-btn btn-sm maxSize" title="Modifier mon profil" :disabled="canModify == false" onClick="window.location.href = 'http://localhost:8080/groupomania';" @click="modifyUser">Modifier mon profil</button>
+    </div>
 </div>
 </template>
 
@@ -110,6 +110,7 @@ export default {
                 let rep = JSON.parse(response.data);
                 console.log(rep);
                 this.$router.push('/groupomania');
+                location.reload();
             })
             .catch(error => {
                 console.log(error);

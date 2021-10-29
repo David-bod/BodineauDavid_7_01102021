@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/users');
 const postsRoutes = require('./routes/posts');
-
+const helmet = require('helmet'); // sécurisation des headers http
 const app = express();
+
+
+app.use (helmet());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
