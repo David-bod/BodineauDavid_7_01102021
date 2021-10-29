@@ -1,7 +1,7 @@
 const postsR = require('../models/posts'); // route models pour les posts
-const mysql = require('mysql'); // module mysql
+//const mysql = require('mysql'); // module mysql
 const jwt = require('jsonwebtoken'); // jsonwebtoken
-const mysql_con = require('../mysql_con'); // identifiants conexion mysql
+//const mysql_con = require('../mysql_con'); // identifiants conexion mysql
 
 let posts = new postsR();
 
@@ -11,19 +11,15 @@ exports.createPost = async (req, res, next) => {
     let dataCreatePost = [userId, text];
     posts.createPost(dataCreatePost)
         .then((response) => {
-            res.status(201).json(JSON.stringify(response));
-        })
+        res.status(201).json(JSON.stringify(response));
+    })
 };
 
 exports.getAllPosts = async (req, res, next) => {
     posts.getAllPosts()
-        .then((response) => {
-            res.status(200).json(JSON.stringify(response));
-        });
-};
-
-exports.getUser = async (req, res, next) => {
-
+    .then((response) => {
+        res.status(200).json(JSON.stringify(response));
+    });
 };
 
 exports.deletePost = async (req, res, next) => {
@@ -32,17 +28,15 @@ exports.deletePost = async (req, res, next) => {
     const userId = decodedToken.userId;
     let postId = req.params.id;
     let reqPostId = [postId];
-    let isAdmin = req.params.admin;
-    let reqAdmin = [isAdmin];
     let reqPostIdUserId = [postId, userId];
-    posts.deletePost(reqPostId, reqPostIdUserId, reqAdmin)
-        .then((response) => {
-            res.status(200).json(JSON.stringify(response));
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(400).json(JSON.stringify(error));
-        })
+    posts.deletePost(reqPostId, reqPostIdUserId)
+    .then((response) => {
+        res.status(200).json(JSON.stringify(response));
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(400).json(JSON.stringify(error));
+    })
 };
 
 exports.getComment = async (req, res, next) => {

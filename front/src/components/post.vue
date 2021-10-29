@@ -6,25 +6,27 @@
             <h4><a class="profil-clic" href="/profil">{{ post.name }}</a></h4>
             <h5>Le {{ post.date }} à {{ post.time }}</h5>
         </div>
-        <p>{{ post.text }}</p>
+        <p class="post-text">{{ post.text }}</p>
         <div class="section-comment">
+            <p class="alert-text" v-if="comment.text.length >= 1"> {{ errors[0] }}</p>
             <form class="sendText" action="#">
-                <textarea type="text" v-model="comment.text" label="Commentaire" minlength="1" maxlength="255" class="comment" placeholder="Cliquez ici pour commenter" required/>
-                <button class="btn btn-success" title="Envoyer un commentaire sur ce post" @click="createComment(post.id)">Envoyer</button>
+                <textarea type="text" v-model="comment.text" label="Commentaire" minlength="2" maxlength="255" class="comment" @keyup="checkForm" placeholder="Cliquez ici pour commenter" required/>
+                <button class="btn btn-success btn-sm" title="Envoyer un commentaire sur ce post" :disabled="canComment == false" @click="createComment(post.id)">Envoyer</button>
             </form>
         </div>
         <button @click="afficherCom(post.id)" class="btn btn-primary btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
         <div class="users-comment" v-for="(comment, listComment) in allComments" v-bind:key="listComment">
             <div v-if="post.id == comment.postid">
-                <h6>{{ comment.name }} le {{ comment.date }} <button title="SUPPRIMER LE COMMENTAIRE" class="btn btn-danger btn-sm" @click="deleteComment(comment.id)" v-if="comment.userId == userId || admin == 1"><i class="far fa-trash-alt"></i></button></h6>
+                <h6>{{ comment.name }} le {{ comment.date }} <button title="SUPPRIMER LE COMMENTAIRE" class="btn btn-outline-danger btn-sm" @click="deleteComment(comment.id)" v-if="comment.userId == userId || admin == 1"><i class="fas fa-trash"></i></button></h6>
                 <p class="unique-com">{{ comment.text }}</p>
 
             </div>
         </div>
         <div class="moderation" v-if="post.userId == userId || admin == 1">
-            <button class="btn btn-danger modo-btn btn-sm" title="SUPPRIMER LE POST" @click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+            <button class="btn btn-outline-danger modo-btn btn-sm" title="SUPPRIMER LE POST" @click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
         </div>
         </article>
+        <p class="no-connect" v-if="userId == null">Vous devez être connecté pour pouvoir intéragir avec les membres du forum !</p>
     </div>
 
 </template>
@@ -45,6 +47,8 @@ export default {
             text: "",
             postId: "",
             commentId: "",
+            canComment: false,
+            errors: [],
 
             verifUser: {
                 userId: localStorage.userId
@@ -59,10 +63,28 @@ export default {
         }
     },
     methods: {
+        checkForm:function(e) {
+            this.errors = [];
+            if (this.errors.length == 0) { this.canComment = true; console.log(this.canComment + "/" + this.errors.length)}
+            if(!this.comment.text) {
+                this.errors.push("Un texte est obligatoire");
+                this.canComment = false;
+            } else if (!this.validComment(this.comment.text)) {
+                this.errors.push("Le texte doit faire entre 2 et 255 caractères");
+                this.canComment = false;
+            }
+            if(!this.errors.length) return true;
+            e.preventDefault();
+        },
+        validComment:function(isValidCom) {
+            this.comment.text = isValidCom;
+            //eslint-disable-next-line
+            let re = /^[\s\S]{2,255}/;
+            return re.test(isValidCom);
+        },
         deletePost(pId){
             this.postId = pId;
-            this.isAdmin = JSON.stringify(this.admin);
-            axios.delete("http://localhost:3000/groupomania/" + pId, + "/admin", this.isAdmin, {headers: {Authorization: 'Bearer ' + localStorage.token}})
+            axios.delete("http://localhost:3000/groupomania/" + pId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
                 let rep = JSON.parse(response.data);
                 console.log(rep.message);
@@ -158,6 +180,15 @@ h4, h5 {
     transition: .5s;
 }
 
+.post-text {
+    background-color: white;
+    max-width: 760px;
+    padding: 10px;
+    overflow: hidden;
+    word-wrap: break-word;
+    border-radius: 5px;
+}
+
 .top-comment {
     display: flex;
     align-items: center;
@@ -171,7 +202,7 @@ h4, h5 {
 }
 
 textarea {
-    max-height: 50px;
+    max-height: 25px;
 }
 
 .comment {
@@ -210,6 +241,11 @@ textarea {
 
 .btn-comment {
     margin-bottom: 10px;
+}
+
+.no-connect {
+    font-weight: bold;
+    color: red;
 }
 
 </style>

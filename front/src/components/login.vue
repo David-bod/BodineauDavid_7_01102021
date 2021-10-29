@@ -1,26 +1,25 @@
 <template>
-    <form @submit="loginSubmit" class="connexion" action="#">
+    <div class="connexion">
         <h3>Connexion</h3>
-        <p v-if="errors.length <= 1">
+        <p v-if="dataLog.email.length >= 5 && dataLog.password.length >= 5">
             <ul>
-                <li v-for="(error, ok) in errors" v-bind:key="ok">{{ errors }}</li>
+                <li v-for="(error, ok) in errors" v-bind:key="ok">{{ errors[ok] }}</li>
             </ul>
         </p>
-
         <div class="form-group">
             <label>Adresse mail</label>
-            <input type="email" class="form-control" name="email" v-model="dataLog.email" placeholder="Adresse e-mail" minlength="5" required/>
+            <input @keyup="checkForm" type="email" class="form-control" name="email" v-model="dataLog.email" placeholder="Adresse e-mail" minlength="5" autofocus required/>
         </div>
 
         <div class="form-group">
             <label>Mot de passe</label>
-            <input type="password" class="form-control" name="password" v-model="dataLog.password" placeholder="Mot de passe" minlength="7" required/>
+            <input @keyup="checkForm" type="password" class="form-control" name="password" v-model="dataLog.password" placeholder="Mot de passe" minlength="7" required/>
         </div>
 
         <p v-if="otherData.msg">{{ message }}</p>
-        <button class="btn btn-success btn-block">Je me connecte !</button>
-        <a href="http://localhost:8080/" class="btn btn-dark btn-block"><i class="fas fa-arrow-left"></i> Retourner à l'accueil</a>
-    </form>
+        <button class="btn btn-success btn-block" :disabled="canLogin == false" @click="loginSubmit">Je me connecte !</button>
+        <a href="http://localhost:8080/" class="btn btn-dark btn-block"><i class="fas fa-arrow-left"></i>Retourner à l'accueil</a>
+    </div>
 </template>
 
 
@@ -32,6 +31,7 @@
         data() {
             return {
                 errors: [],
+                canLogin: false,
                 dataLog: {
                     email : '',
                     password: ''
@@ -47,10 +47,21 @@
         methods: {
             checkForm:function(e) {
                 this.errors = [];
+                if (this.errors.length == 0) { this.canLogin = true; console.log(this.canLogin + "/" + this.errors.length)}
                 if(!this.dataLog.email) {
                     this.errors.push("L'email est nécessaire !");
+                    this.canLogin = false;
                 } else if (!this.validEmail(this.dataLog.email)) {
                     this.errors.push("L'email est invalide !");
+                    this.canLogin = false;
+                }
+                if (!this.dataLog.password) {
+                    this.errors.push("Le mot de passe est nécessaire");
+                    this.canLogin = false;
+                }
+                if (!this.validPassword(this.dataLog.password)) {
+                    this.errors.push("Le mot de passe doit contenir 8 caractères, une lettre, un chiffre.");
+                    this.canLogin = false;
                 }
                 if(!this.errors.length) return true;
                 e.preventDefault();
@@ -60,6 +71,12 @@
                 //eslint-disable-next-line
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
+            },
+            validPassword:function(pass) {
+                this.dataLog.password = pass;
+                //eslint-disable-next-line
+                let rePass = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                return rePass.test(pass);
             },
             loginSubmit(){
                 this.dataSend = JSON.stringify(this.dataLog);
@@ -72,6 +89,7 @@
                     localStorage.token = dataSend.token;
                     localStorage.admin = dataSend.admin;
                     this.$router.push('/groupomania');
+                    location.reload();
                 })
                 .catch(err => {
                     this.otherData.message = err;
@@ -103,4 +121,14 @@ span {
     font-weight: bold;
 }
 
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    color: red;
+    font-weight: bold;
+}
 </style>

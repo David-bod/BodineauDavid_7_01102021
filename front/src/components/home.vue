@@ -1,6 +1,7 @@
 <template>
 
     <div class="container">
+        <h1>Bienvenue</h1>
         <figure>
             <img id="img_home" src="../img/logo_groupomania/icon-above-font.png" alt="Logo du groupe Groupomania" title="Groupomania">
         </figure>
@@ -23,6 +24,11 @@
 
 h1, figure{
     margin: 0;
+}
+
+h1 {
+    color: white;
+    margin-top: 15px;
 }
 
 #img_home{

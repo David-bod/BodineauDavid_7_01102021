@@ -16,9 +16,11 @@ app.use(bodyParser.json());
 
 app.post('/register', userRoutes);
 app.post('/login', userRoutes);
+app.put('/profil', userRoutes)
+app.get('/profil', userRoutes);
 app.get('/groupomania', postsRoutes);
 app.post('/groupomania', postsRoutes);
-app.delete('/groupomania/:id/admin', postsRoutes);
+app.delete('/groupomania/:id', postsRoutes);
 app.post('/groupomania/:id/com', postsRoutes);
 app.get('/groupomania/:id/com', postsRoutes);
 app.delete('/groupomania/com/:id', postsRoutes);

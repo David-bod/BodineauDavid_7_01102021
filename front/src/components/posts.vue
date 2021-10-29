@@ -3,10 +3,11 @@
     <div class="zone-principal">
         <div class="zone zone-1">
             <div class="list-posts">
+                <p class="alert-text" v-if="dataPost.text.length > 1"> {{ errors[0] }}</p>
                 <div class="section-comment">
                     <form class="sendText">
-                        <input type="text" minlength="20" maxlength="500" class="comment addpost" placeholder="Cliquez ici pour ajouter du texte" v-model="dataPost.text" required/>
-                        <button class="btn btn-success" title="Envoyer un post" @click="sendPost()">Envoyer</button>
+                        <input type="text" minlength="20" maxlength="500" class="comment addpost" @keyup="checkForm" placeholder="Cliquez ici pour ajouter du texte" v-model="dataPost.text" required/>
+                        <button class="btn btn-success" title="Envoyer un post" :disabled="canPost == false"  @click="sendPost()">Envoyer</button>
                     </form>
                 </div>
                 <post />
@@ -39,7 +40,9 @@ export default {
             userName: localStorage.name,
             email: localStorage.email,
             admin: "",
-            allPosts: [], //ajouter allComment apres
+            allPosts: [],
+            canPost: false,
+            errors: [],
 
             dataPost: {
                 text: "",
@@ -49,26 +52,38 @@ export default {
         }
     },
     methods: {
+        checkForm:function(e) {
+            this.errors = [];
+            if (this.errors.length == 0) { this.canPost = true; console.log(this.canPost + "/" + this.errors.length)}
+            if(!this.dataPost.text) {
+                this.errors.push("Un texte est obligatoire");
+                this.canPost = false;
+            } else if (!this.validPost(this.dataPost.text)) {
+                this.errors.push("Le texte doit faire entre 20 et 500 caractères");
+                this.canPost = false;
+            }
+            if(!this.errors.length) return true;
+            e.preventDefault();
+        },
+        validPost:function(isValidPost) {
+            this.dataPost.text = isValidPost;
+            //eslint-disable-next-line
+            let re = /^[\s\S]{20,500}/;
+            return re.test(isValidPost);
+        },
         sendPost() {
             this.dataSend = JSON.stringify(this.dataPost);
             axios.post("http://localhost:3000/groupomania", this.dataSend, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
                 let retour = JSON.parse(response.data);
                 this.message = retour.message;
-                this.$router.push('/groupomania')   
+                this.$router.push('/groupomania');
             })
             .catch(error => {
                 console.log(error);
             });
             location.reload();
         }
-    },
-    mounted() {
-        axios.get("http://localhost:3000/groupomania", {headers: {Authorization: 'Bearer ' + localStorage.token}})
-        .then(response => {
-            let posts = JSON.parse(response.data);
-            this.allPosts = posts;
-        })
     }
 }
 
@@ -137,6 +152,11 @@ export default {
 
 .btn-info {
     margin-bottom: 10px;
+}
+
+.alert-text {
+    font-weight: bold;
+    color: red;
 }
 
 @media screen and (max-width: 1100px) {

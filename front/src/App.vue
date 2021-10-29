@@ -35,7 +35,7 @@ export default {
 }
 
 body{
-  background: #aeaeae !important;
+  background: #5e5e5e !important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
@@ -93,9 +93,6 @@ body, html, #app, .auth-wrapper{
 }
 
 @media screen and (max-width: 1100px) {
-  .auth-inner {
-    
-  }
 }
 
 </style>

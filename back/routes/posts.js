@@ -5,7 +5,7 @@ const stuffCtrl = require('../controllers/posts'); // Chemin vers les fonctions 
 try{
     router.get('/groupomania', auth,stuffCtrl.getAllPosts);
     router.post('/groupomania', auth, stuffCtrl.createPost);
-    router.delete('/groupomania/:id/admin', auth, stuffCtrl.deletePost);
+    router.delete('/groupomania/:id', auth, stuffCtrl.deletePost);
  
     router.get('/groupomania/:id/com', auth, stuffCtrl.getComment);
     router.post('/groupomania/:id/com', auth, stuffCtrl.createComment);

@@ -1,7 +1,7 @@
-const router = require('express').Router();
-const express = require('express');
-const auth = require('../middleware/auth');
-const postsCtrl = require('../controllers/posts');
+//const router = require('express').Router();
+//const express = require('express');
+//const auth = require('../middleware/auth');
+//const postsCtrl = require('../controllers/posts');
 const mysql_con = require('../mysql_con'); // identifiants conexion mysql
 const mysql = require('mysql');
 
@@ -35,8 +35,7 @@ class postsR {
         return new Promise((resolve, reject) => {
             mysql_con.query(sqlDelete, function (err, result) {
                 if (err) { console.log(err); }
-                console.log(result[0].userid);
-                if(reqPostIdUserId[1] == result[0].userid || reqAdmin == 1) {
+                if(reqPostIdUserId[1] == result[0].userid) {
                     let sqlDeletePost = "DELETE FROM posts WHERE id = ? AND userid = ?";
                     sqlDeletePost = mysql.format(sqlDeletePost, reqPostIdUserId);
                     mysql_con.query(sqlDeletePost, function (err, result){
