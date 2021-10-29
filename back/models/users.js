@@ -69,7 +69,7 @@ class User {
     }
 
     getProfil(dataUserId) {
-        let getDataUser = 'SELECT id, name, email, admin FROM users WHERE id = ?';
+        let getDataUser = "SELECT id, name, email, admin FROM users WHERE id = ?";
         getDataUser = mysql.format(getDataUser, dataUserId);
         return new Promise((resolve, reject) => {
             mysql_con.query(getDataUser, function(err, result) {
@@ -81,13 +81,25 @@ class User {
     }
 
     deleteProfil(userSqlDeleteProfil) {
-        let recupDeleteProfil = 'DELETE FROM users WHERE id = ?'; 
+        let recupDeleteProfil = "DELETE FROM users WHERE id = ?";
+        let recupDeletePosts = "DELETE FROM posts WHERE userid = ?";
+        let recupDeleteComment = "DELETE FROM comments WHERE userId = ?";
         recupDeleteProfil = mysql.format(recupDeleteProfil, userSqlDeleteProfil);
-        return new Promise((res, error) => {
+        recupDeletePosts = mysql.format(recupDeletePosts, userSqlDeleteProfil);
+        recupDeleteComment = mysql.format(recupDeleteComment, userSqlDeleteProfil);
+        return new Promise((resolve, error) => {
+            mysql_con.query(recupDeleteComment, function(err, result) {
+                if (err) return error({ message: "Impossible de supprimer les commentaires." });
+                resolve({ message : "Commentaires supprimés !" });
+            })
+            mysql_con.query(recupDeletePosts, function(err, result) {
+                if (err) return error({ message: "Impossible de supprimer les posts." });
+                resolve({ message : "Posts supprimés !" });
+            })
             mysql_con.query(recupDeleteProfil, function(err, result) {
                 if (err) return error({ message: "Impossible de supprimer le profil." });
-                res({ message : "Le profil a été supprimé avec succès." });
-            }) 
+                resolve({ message : "Votre profil est supprimé !" });
+            })
         })
     }
 }

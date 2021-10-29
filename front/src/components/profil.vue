@@ -7,7 +7,7 @@
         <p>{{ dataUser.email }}</p>
         <p v-if="dataUser.admin == 0">Rôle : Membre</p>
         <p v-if="dataUser.admin == 1">Rôle : Modérateur</p>
-        <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer mon profil du site">Supprimer mon profil</button>
+        <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer mon profil du site" @click="deleteUser">Supprimer mon profil</button>
         <a href="/groupomania"><button class="btn btn-info modo-btn btn-sm" title="Retour sur la page des posts">Retour</button></a>
     </div>
     <form class="zone-20" action="#">
@@ -113,6 +113,20 @@ export default {
             })
             .catch(error => {
                 console.log(error);
+            })
+        },
+        deleteUser() {
+            axios.delete("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response => {
+                let rep = JSON.parse(response.data);
+                console.log(rep);
+                localStorage.clear();
+                this.$router.push('/');
+                location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+                this.msg = error  
             })
         }
     },

@@ -1,7 +1,3 @@
-//const router = require('express').Router();
-//const express = require('express');
-//const auth = require('../middleware/auth');
-//const postsCtrl = require('../controllers/posts');
 const mysql_con = require('../mysql_con'); // identifiants conexion mysql
 const mysql = require('mysql');
 
@@ -29,13 +25,13 @@ class postsR {
             })
         })
     }
-    deletePost(reqPostId, reqPostIdUserId, reqAdmin) {
+    deletePost(reqPostId, reqPostIdUserId) {
         let sqlDelete = "SELECT * FROM posts where id = ?";
         sqlDelete = mysql.format(sqlDelete, reqPostId);
         return new Promise((resolve, reject) => {
             mysql_con.query(sqlDelete, function (err, result) {
                 if (err) { console.log(err); }
-                if(reqPostIdUserId[1] == result[0].userid) {
+                if(reqPostIdUserId[1] != null) {
                     let sqlDeletePost = "DELETE FROM posts WHERE id = ? AND userid = ?";
                     sqlDeletePost = mysql.format(sqlDeletePost, reqPostIdUserId);
                     mysql_con.query(sqlDeletePost, function (err, result){
@@ -45,7 +41,6 @@ class postsR {
                 }else{
                     reject({ error: "Le post n'a pas pu être supprimé." });
                 }
-            
             });
         })
     }

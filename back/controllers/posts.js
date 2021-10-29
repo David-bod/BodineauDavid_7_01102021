@@ -1,7 +1,5 @@
 const postsR = require('../models/posts'); // route models pour les posts
-//const mysql = require('mysql'); // module mysql
 const jwt = require('jsonwebtoken'); // jsonwebtoken
-//const mysql_con = require('../mysql_con'); // identifiants conexion mysql
 
 let posts = new postsR();
 

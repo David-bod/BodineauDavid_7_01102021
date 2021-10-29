@@ -69,7 +69,6 @@ exports.getProfil = (req, res, next) => {
 }
 
 exports.deleteProfil = (req, res, next) => {
-    console.log("Route : DeleteProfil");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;

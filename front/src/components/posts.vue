@@ -77,7 +77,7 @@ export default {
             .then(response => {
                 let retour = JSON.parse(response.data);
                 this.message = retour.message;
-                this.$router.push('/groupomania');
+                location.reload();
             })
             .catch(error => {
                 console.log(error);

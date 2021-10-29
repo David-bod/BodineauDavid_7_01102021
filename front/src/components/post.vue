@@ -3,7 +3,7 @@
     <div class="post">
         <article v-for="(post, listPost) in allPosts" v-bind:key="listPost">
         <div class="top-comment">
-            <h4><a class="profil-clic" href="/profil">{{ post.name }}</a></h4>
+            <h4><a class="profil-clic" href="#">{{ post.name }}</a></h4>
             <h5>Le {{ post.date }} à {{ post.time }}</h5>
         </div>
         <p class="post-text">{{ post.text }}</p>

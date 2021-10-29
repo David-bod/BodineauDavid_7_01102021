@@ -20,8 +20,6 @@ module.exports = (req, res, next) => {
       }
     })
   } catch {
-    res.status(401).json({
-      error: new Error("Requête refusée !")
-    });
+    res.status(401).json({ message : "Erreur dans l'auth !" });
   }
 };
