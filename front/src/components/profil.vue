@@ -3,10 +3,11 @@
     <div class="zone-20">
         <h1 class="profil">Profil</h1>
         <a href="#"><img src="../img/logo_groupomania/profil_defaut.png" class="profil-img" alt="Photo de profil" title="Photo de profil"></a>
-        <p>{{ dataUser.name }}</p>
+        <p>{{ dataUser.name }} (n° compte : {{ dataUser.id }})</p>
         <p>{{ dataUser.email }}</p>
+        <p v-if="dataUser.admin == 0">Rôle : Membre</p>
+        <p v-if="dataUser.admin == 1">Rôle : Modérateur</p>
         <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer mon profil du site">Supprimer mon profil</button>
-        <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer ce profil du site" v-if="dataUser.admin == 1">Supprimer le profil de l'utilisateur</button>
         <a href="/groupomania"><button class="btn btn-info modo-btn btn-sm" title="Retour sur la page des posts">Retour</button></a>
     </div>
     <form class="zone-20" action="#">
@@ -43,9 +44,10 @@ export default {
             errors: [],
             canModify: false,
             dataUser: {
-                name: localStorage.name,
-                email: localStorage.email,
-                admin: localStorage.admin
+                name: "",
+                email: "",
+                admin: "",
+                id: ""
             },
             newDataUser: {
                 name: "",
@@ -107,12 +109,25 @@ export default {
             .then(response => {
                 let rep = JSON.parse(response.data);
                 console.log(rep);
-                location.reload();
+                this.$router.push('/groupomania');
             })
             .catch(error => {
                 console.log(error);
             })
         }
+    },
+    mounted() {
+        axios.get("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+        .then(response => {
+            let dataProfil = JSON.parse(response.data);
+            this.dataUser.name = dataProfil[0].name;
+            this.dataUser.email = dataProfil[0].email;
+            this.dataUser.admin = dataProfil[0].admin;
+            this.dataUser.id = dataProfil[0].id;
+        })
+        .catch(error => {
+            console.log("Impossible de traiter les données du profil ! >" + error);
+        })
     }
 }
 

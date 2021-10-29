@@ -39,9 +39,9 @@ export default {
     name: 'post',
     data() {
         return {
-            userId: localStorage.userId,
-            userName: localStorage.name,
-            admin: localStorage.admin,
+            userId: "",
+            userName: "",
+            admin: "",
             allPosts: [],
             allComments: [],
             text: "",
@@ -51,13 +51,13 @@ export default {
             errors: [],
 
             verifUser: {
-                userId: localStorage.userId
+                userId: ""
             },
             comment: {
                 id: "",
                 text: "",
-                userId: localStorage.userId,
-                name: localStorage.name
+                userId: "",
+                name: ""
             },
             dataComment: ""
         }
@@ -142,6 +142,19 @@ export default {
             this.allPosts = posts;
             console.log(posts);
         });
+        axios.get("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+        .then(response => {
+            let dataProfil = JSON.parse(response.data);
+            this.comment.name = dataProfil[0].name;
+            this.userName = dataProfil[0].name;
+            this.admin = dataProfil[0].admin;
+            this.userId = dataProfil[0].id;
+            this.verifUser = dataProfil[0].id;
+            this.comment.userId = dataProfil[0].id;
+        })
+        .catch(error => {
+            console.log("Impossible de traiter les données du profil ! >" + error);
+        })
     }
 }
 </script>

@@ -68,6 +68,18 @@ class User {
         })
     }
 
+    getProfil(dataUserId) {
+        let getDataUser = 'SELECT id, name, email, admin FROM users WHERE id = ?';
+        getDataUser = mysql.format(getDataUser, dataUserId);
+        return new Promise((resolve, reject) => {
+            mysql_con.query(getDataUser, function(err, result) {
+                if (err) return reject({ error : "Impossible de récupéré les informations utilisateur !" });
+                resolve(result);
+            }) 
+
+        })
+    }
+
     deleteProfil(userSqlDeleteProfil) {
         let recupDeleteProfil = 'DELETE FROM users WHERE id = ?'; 
         recupDeleteProfil = mysql.format(recupDeleteProfil, userSqlDeleteProfil);
