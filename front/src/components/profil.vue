@@ -35,8 +35,10 @@
 </template>
 
 <script>
+// Importation du module axios pour les requêtes vers le back
 import axios from "axios"
 
+// Déclaration des données
 export default {
     name: 'profil',
     data() {
@@ -57,6 +59,7 @@ export default {
         }
     },
     methods: {
+        // Vérification du formulaire à l'aide de Regex
         checkForm:function(e) {
             this.errors = [];
             if (this.errors.length == 0) { this.canModify = true; console.log(this.canModify + "/" + this.errors.length)}
@@ -103,19 +106,21 @@ export default {
             let reName = /^[a-z ,.'-]+$/i;
             return reName.test(name);
         },
+        // Requête modification des données utilisateur
         modifyUser() {
             this.newData = JSON.stringify(this.newDataUser);
             axios.put("http://localhost:3000/profil", this.newData, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
+                console.log("Profil modifié !");
                 let rep = JSON.parse(response.data);
                 console.log(rep);
-                this.$router.push('/groupomania');
                 location.reload();
             })
             .catch(error => {
                 console.log(error);
             })
         },
+        // Requête pour la suppression d'un utilisateur/posts et commentaires
         deleteUser() {
             axios.delete("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
@@ -131,7 +136,9 @@ export default {
             })
         }
     },
+    // Requêtes au chargement de la page
     mounted() {
+        // Récupération des données profil (nom/email/admin/id)
         axios.get("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
         .then(response => {
             let dataProfil = JSON.parse(response.data);
@@ -149,7 +156,7 @@ export default {
 </script>
 
 <style>
-
+/* Début du CSS */
 .zone-20 {
     display: flex;
     flex-direction: column;

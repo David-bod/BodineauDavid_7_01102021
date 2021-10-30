@@ -5,6 +5,7 @@ const MaskData = require('maskdata'); // Masquage des emails
 
 let userdb = new User();
 
+// Inscription
 exports.signup = async (req, res, next) => {
     let name = req.body.name; let email = req.body.email; let password = req.body.password;
     const emailMaskOptions = { maskWith: "*", unmaskedStartCharactersBeforeAt: 5, unmaskedEndCharactersAfterAt: 5, maskAtTheRate: false};
@@ -19,8 +20,8 @@ exports.signup = async (req, res, next) => {
     .catch(error => res.status(500).json({ message: "L'utilisateur n'a pas pu s'inscrire" }));
 }
 
+// Connexion
 exports.login = (req, res, next) => {
-    console.log("Tentative de Login.");
     let email = req.body.email; let password = req.body.password;
     const emailMaskOptions = { maskWith: "*", unmaskedStartCharactersBeforeAt: 5, unmaskedEndCharactersAfterAt: 5, maskAtTheRate: false};
     const emailMask = MaskData.maskEmail2(email, emailMaskOptions);
@@ -29,11 +30,10 @@ exports.login = (req, res, next) => {
     .then((response) => {
         res.status(200).json(JSON.stringify(response))
     })
-    .catch((err) => {
-        res.status(400).json({ message: "La connexion au serveur de vérification a échouée." })
-    })
+    .catch((err) => { res.status(400).json({ err }) });
 }
 
+// Modification du profil utilisateur
 exports.modifyUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -48,6 +48,7 @@ exports.modifyUser = (req, res, next) => {
     userdb.modifyUser(userDataName, userDataEmail, userDataPassword, userDataId)
 }
 
+// Avoir les informations du profil
 exports.getProfil = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -63,6 +64,7 @@ exports.getProfil = (req, res, next) => {
     }) 
 }
 
+// Supprimer un profil utilisateur
 exports.deleteProfil = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');

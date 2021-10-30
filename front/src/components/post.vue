@@ -1,5 +1,4 @@
 <template>
-
     <div class="post">
         <article v-for="(post, listPost) in allPosts" v-bind:key="listPost">
         <div class="top-comment">
@@ -9,10 +8,10 @@
         <p class="post-text">{{ post.text }}</p>
         <div class="section-comment">
             <p class="alert-text" v-if="comment.text.length >= 1"> {{ errors[0] }}</p>
-            <form class="sendText" action="#">
+            <div class="sendText">
                 <textarea type="text" v-model="comment.text" label="Commentaire" minlength="2" maxlength="255" class="comment" @keyup="checkForm" placeholder="Cliquez ici pour commenter" required/>
                 <button class="btn btn-success btn-sm" title="Envoyer un commentaire sur ce post" :disabled="canComment == false" @click="createComment(post.id)">Envoyer</button>
-            </form>
+            </div>
         </div>
         <button @click="afficherCom(post.id)" class="btn btn-primary btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
         <div class="users-comment" v-for="(comment, listComment) in allComments" v-bind:key="listComment">
@@ -28,7 +27,6 @@
         </article>
         <p class="no-connect" v-if="userId == null">Vous devez être connecté pour pouvoir intéragir avec les membres du forum !</p>
     </div>
-
 </template>
 
 <script>

@@ -29,7 +29,7 @@ CREATE TABLE `posts` (
   `createdate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (42,57,'Bonjour à tous, je déclare ouvert officiellement le forum Groupomania ! Bienvenue à tous !','2021-10-29 15:35:12'),(43,57,'Pour votre information : Vous pouvez supprimer à tout moment votre profil dans \"Voir mon profil\" puis \"Supprimer mon profil\". Aucunes données sont conservées et vos posts et commentaires seront supprimés. Merci pour votre compréhension.','2021-10-29 15:37:28'),(44,58,'Bonjour ! Je me présent, je suis Julien, j\'ai 28 ans et je suis en ce moment au service comptabilité. J\'espère que nous passerons de bons moments ensemble sur ce forum ! Bonne journée :)','2021-10-29 15:38:59');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-29  9:42:27
+-- Dump completed on 2021-10-30 10:11:40

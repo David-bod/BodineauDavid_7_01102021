@@ -16,7 +16,7 @@
             <input @keyup="checkForm" type="password" class="form-control" name="password" v-model="dataLog.password" placeholder="Mot de passe" minlength="7" required/>
         </div>
 
-        <p v-if="otherData.msg">{{ message }}</p>
+        <p class="error-msg" v-if="otherData.msg">{{ otherData.message }}</p>
         <button class="btn btn-success btn-block" :disabled="canLogin == false" @click="loginSubmit">Je me connecte !</button>
         <a href="http://localhost:8080/" class="btn btn-dark btn-block"><i class="fas fa-arrow-left"></i>Retourner à l'accueil</a>
     </div>
@@ -89,7 +89,9 @@
                     location.reload();
                 })
                 .catch(err => {
-                    this.otherData.message = err;
+                    let msgerr = "Mot de passe ou email incorrect ! ";
+                    console.log(err);
+                    this.otherData.message = msgerr;
                     this.otherData.msg = true;
                 });
             }
@@ -127,5 +129,10 @@ li {
     list-style: none;
     color: red;
     font-weight: bold;
+}
+
+.error-msg {
+    font-weight: bold;
+    color: red;
 }
 </style>

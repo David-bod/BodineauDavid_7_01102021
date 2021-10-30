@@ -6,7 +6,7 @@ const helmet = require('helmet'); // sécurisation des headers http
 const app = express();
 
 
-app.use (helmet());
+app.use (helmet()); // Sécuriser les requêtes http
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.post('/register', userRoutes); // Inscription
 app.post('/login', userRoutes); // Connexion
-app.put('/profil', userRoutes) // Modification : Profil
+app.put('/profil', userRoutes); // Modification : Profil
 app.delete('/profil', userRoutes); // Suppression : Profil
 app.get('/profil', userRoutes); // affichage : Données profil
 app.get('/groupomania', postsRoutes); // Affichage : Posts

@@ -6,6 +6,8 @@ const MaskData = require('maskdata');
 
 class User {
     constructor() {}  
+
+    // Inscription
     signup(userSql) {
         let insertion = "INSERT INTO users VALUES( null, ?, ?, ?, null, 0)";
         insertion = mysql.format(insertion, userSql);
@@ -17,6 +19,7 @@ class User {
         })
     }
 
+    // Connexion
     login(userSqlLogin, password) {
         console.log("Vérification données Login...");
         let recupEmail = "SELECT * FROM users WHERE email = '" + userSqlLogin + "'";
@@ -30,7 +33,7 @@ class User {
                     bcrypt.compare(password, result[0].password) // Récupère le password dans la row que la bdd a envoyé
                     .then(valid => {
                         console.log("Vérification mot de passe...");
-                        if (!valid) return error({ message: "Le mot de passe est incorrect." })
+                        if (!valid) return error({ message: "Le mot de passe est incorrect !" })
                         resolve({
                             userId: result[0].id, 
                             token: jwt.sign({ 
@@ -49,6 +52,7 @@ class User {
         })
     }
 
+    // Modification du profil utilisateur
     modifyUser(userDataName, userDataEmail, userDataPassword, userDataId) {
         let email = userDataEmail[0]; let name = userDataName[0]; let password = userDataPassword[0]; let userId = userDataId[0];
         const options = { maskWith: "*", unmaskedStartCharactersBeforeAt: 5, unmaskedEndCharactersAfterAt: 5, maskAtTheRate: false};
@@ -68,6 +72,7 @@ class User {
         })
     }
 
+    // Recevoir les données du profil (id/nom/email/amdin)
     getProfil(dataUserId) {
         let getDataUser = "SELECT id, name, email, admin FROM users WHERE id = ?";
         getDataUser = mysql.format(getDataUser, dataUserId);
@@ -80,6 +85,7 @@ class User {
         })
     }
 
+    // Suppression du profil + posts + commentaires
     deleteProfil(userSqlDeleteProfil) {
         let recupDeleteProfil = "DELETE FROM users WHERE id = ?";
         let recupDeletePosts = "DELETE FROM posts WHERE userid = ?";
