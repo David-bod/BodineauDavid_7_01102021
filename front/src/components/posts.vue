@@ -6,7 +6,7 @@
                 <p class="alert-text" v-if="dataPost.text.length > 1"> {{ errors[0] }}</p>
                 <div class="section-comment">
                     <form class="sendText">
-                        <input type="text" minlength="20" maxlength="500" class="comment addpost" @keyup="checkForm" placeholder="Cliquez ici pour ajouter du texte" v-model="dataPost.text" required/>
+                        <input autofocus type="text" minlength="20" maxlength="500" class="comment addpost" @keyup="checkForm" placeholder="Cliquez ici pour ajouter du texte" v-model="dataPost.text" required/>
                         <button class="btn btn-success" title="Envoyer un post" :disabled="canPost == false"  @click="sendPost()">Envoyer</button>
                     </form>
                 </div>
@@ -15,10 +15,10 @@
         </div>
 
         <div class="zone zone-2">
-            <a href="/profil"><img src="../img/logo_groupomania/profil_defaut.png" class="profil-img" alt="Photo de profil" title="Photo de profil"></a>
+            <a href="/profil"><img src="../img/logo_groupomania/profil_defaut.png" class="profil-img" alt="Voir mon profil" title="Profil"></a>
             <p>{{ userName }}</p>
             <p>{{ email }}</p>
-            <a href="/profil"><button class="btn btn-info modo-btn" title="Regarder ma page de profil">Voir mon profil</button></a>
+            <a href="/profil"><button class="btn btn-dark modo-btn" title="Regarder ma page de profil">Voir mon profil</button></a>
         </div>
 
     </div>

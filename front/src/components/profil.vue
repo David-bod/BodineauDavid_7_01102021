@@ -8,10 +8,10 @@
         <p v-if="dataUser.admin == 0">Rôle : Membre</p>
         <p v-if="dataUser.admin == 1">Rôle : Modérateur</p>
         <button class="btn btn-danger modo-btn btn-sm maxSize" title="Supprimer mon profil du site" @click="deleteUser">Supprimer mon profil</button>
-        <a href="/groupomania"><button class="btn btn-info modo-btn btn-sm" title="Retour sur la page des posts">Retour</button></a>
+        <a href="/groupomania"><button class="btn btn-dark modo-btn btn-sm" title="Retour sur la page des posts">Retour</button></a>
     </div>
     <div class="zone-20">
-        <h4>Modifier votre profil</h4>
+        <h2>Modifier votre profil</h2>
         <p v-if="newDataUser.email.length >= 5 && newDataUser.password.length >= 5 && newDataUser.name.length >= 2">
             <ul>
                 <li v-for="(error, ok) in errors" v-bind:key="ok">{{ errors[ok] }}</li>

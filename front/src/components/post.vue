@@ -2,18 +2,18 @@
     <div class="post">
         <article v-for="(post, listPost) in allPosts" v-bind:key="listPost">
         <div class="top-comment">
-            <h4><a class="profil-clic" href="#">{{ post.name }}</a></h4>
-            <h5>Le {{ post.date }} à {{ post.time }}</h5>
+            <h4><a class="profil-clic" href="#" title="Auteur du post">{{ post.name }}</a></h4>
+            <h5 title="Date et heure à laquelles le post a été créé">Le {{ post.date }} à {{ post.time }}</h5>
         </div>
         <p class="post-text">{{ post.text }}</p>
         <div class="section-comment">
             <p class="alert-text" v-if="comment.text.length >= 1"> {{ errors[0] }}</p>
             <div class="sendText">
-                <textarea type="text" v-model="comment.text" label="Commentaire" minlength="2" maxlength="255" class="comment" @keyup="checkForm" placeholder="Cliquez ici pour commenter" required/>
+                <textarea type="text" v-model="comment.text" minlength="2" maxlength="255" class="comment" @keyup="checkForm" placeholder="Cliquez ici pour commenter" required/>
                 <button class="btn btn-success btn-sm" title="Envoyer un commentaire sur ce post" :disabled="canComment == false" @click="createComment(post.id)">Envoyer</button>
             </div>
         </div>
-        <button @click="afficherCom(post.id)" class="btn btn-primary btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
+        <button @click="afficherCom(post.id)" class="btn btn-dark btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
         <div class="users-comment" v-for="(comment, listComment) in allComments" v-bind:key="listComment">
             <div v-if="post.id == comment.postid">
                 <h6>{{ comment.name }} le {{ comment.date }} <button title="SUPPRIMER LE COMMENTAIRE" class="btn btn-outline-danger btn-sm" @click="deleteComment(comment.id)" v-if="comment.userId == userId || admin == 1"><i class="fas fa-trash"></i></button></h6>
@@ -32,7 +32,6 @@
 <script>
 
 import axios from "axios"
-
 export default {
     name: 'post',
     data() {
@@ -57,7 +56,7 @@ export default {
                 userId: "",
                 name: ""
             },
-            dataComment: ""
+            dataComment: "",
         }
     },
     methods: {
