@@ -26,7 +26,7 @@ exports.deletePost = async (req, res, next) => {
     const userId = decodedToken.userId;
     let postId = req.params.id;
     let reqPostId = [postId];
-    let reqPostIdUserId = [postId, userId];
+    let reqPostIdUserId = [postId];
     posts.deletePost(reqPostId, reqPostIdUserId)
     .then((response) => {
         res.status(200).json(JSON.stringify(response));

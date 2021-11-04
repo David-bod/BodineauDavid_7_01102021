@@ -28,12 +28,14 @@ class postsR {
     deletePost(reqPostId, reqPostIdUserId) {
         let sqlDelete = "SELECT * FROM posts where id = ?";
         sqlDelete = mysql.format(sqlDelete, reqPostId);
+        console.log(sqlDelete);
         return new Promise((resolve, reject) => {
             mysql_con.query(sqlDelete, function (err, result) {
                 if (err) { console.log(err); }
-                if(reqPostIdUserId[1] != null) {
-                    let sqlDeletePost = "DELETE FROM posts WHERE id = ? AND userid = ?";
+                if(reqPostIdUserId[0] != null) {
+                    let sqlDeletePost = "DELETE FROM posts WHERE id = ?";
                     sqlDeletePost = mysql.format(sqlDeletePost, reqPostIdUserId);
+                    console.log(sqlDeletePost);
                     mysql_con.query(sqlDeletePost, function (err, result){
                         if (err) { console.log(err); }
                         resolve({ message : "Le post a été supprimé." });

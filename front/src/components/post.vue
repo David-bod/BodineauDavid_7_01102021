@@ -2,14 +2,14 @@
     <div class="post">
         <article v-for="(post, listPost) in allPosts" v-bind:key="listPost">
         <div class="top-comment">
-            <h4><a class="profil-clic" href="#" title="Auteur du post">{{ post.name }}</a></h4>
+            <h4><a class="profil-clic" href="#" title="Auteur du post">{{ post.name }} {{ post.id }}</a></h4>
             <h5 title="Date et heure à laquelles le post a été créé">Le {{ post.date }} à {{ post.time }}</h5>
         </div>
         <p class="post-text">{{ post.text }}</p>
         <div class="section-comment">
             <p class="alert-text" v-if="comment.text.length >= 1"> {{ errors[0] }}</p>
             <div class="sendText" v-if="disabled == false || id == post.id" >
-                <textarea :id="post.id" type="text" v-model="comment.text" minlength="2" maxlength="255" class="comment" @click=" checkId" @keyup="checkForm" @focus="id = post.id" placeholder="Cliquez ici pour commenter" required/>
+                <textarea :id="post.id" type="text" v-model="comment.text" minlength="2" maxlength="255" class="comment" @click="checkId" @keyup="checkForm" @focus="id = post.id" placeholder="Cliquez ici pour commenter" required/>
                 <button class="btn btn-success btn-sm" title="Envoyer un commentaire sur ce post" :disabled="canComment == false" @click="createComment(post.id)">Envoyer</button>
             </div>
         </div>
