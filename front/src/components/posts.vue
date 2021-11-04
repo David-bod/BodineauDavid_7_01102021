@@ -37,8 +37,8 @@ export default {
     data() {
         return {
             userId: "",
-            userName: "",
-            email: "",
+            userName: localStorage.userName,
+            email: localStorage.email,
             admin: "",
             allPosts: [],
             canPost: false,
@@ -84,18 +84,6 @@ export default {
             });
             location.reload();
         }
-    },
-    mounted() {
-        axios.get("http://localhost:3000/profil", {headers: {Authorization: 'Bearer ' + localStorage.token}})
-        .then(response => {
-            let dataProfil = JSON.parse(response.data);
-            this.userName = dataProfil[0].name;
-            this.email = dataProfil[0].email;
-            this.dataPost.userId = dataProfil[0].id;
-        })
-        .catch(error => {
-            console.log("Impossible de traiter les données du profil ! >" + error);
-        })
     }
 }
 

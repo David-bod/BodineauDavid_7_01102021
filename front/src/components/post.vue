@@ -156,6 +156,7 @@ export default {
             this.userId = dataProfil[0].id;
             this.verifUser = dataProfil[0].id;
             this.comment.userId = dataProfil[0].id;
+            localStorage.userName = dataProfil[0].name;
         })
         .catch(error => {
             console.log("Impossible de traiter les données du profil ! >" + error);

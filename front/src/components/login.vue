@@ -85,6 +85,7 @@
                     let dataSend =  JSON.parse(response.data);
                     localStorage.userId = dataSend.userId;
                     localStorage.token = dataSend.token;
+                    localStorage.email = dataSend.email;
                     this.$router.push('/groupomania');
                     location.reload();
                 })
