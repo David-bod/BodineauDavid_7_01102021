@@ -18,7 +18,7 @@
             <a href="/profil"><img src="../img/logo_groupomania/profil_defaut.png" class="profil-img" alt="Voir mon profil" title="Profil"></a>
             <p>{{ userName }}</p>
             <p>{{ email }}</p>
-            <a href="/profil"><button class="btn btn-dark modo-btn" title="Regarder ma page de profil">Voir mon profil</button></a>
+            <a href="/profil"><button class="btn btn-dark modo-btn btn-profil" title="Regarder ma page de profil">Voir mon profil</button></a>
         </div>
 
     </div>
@@ -162,7 +162,7 @@ export default {
     margin-top: 15px;
 }
 
-.btn-info {
+.btn-info, .btn-profil {
     margin-bottom: 10px;
 }
 

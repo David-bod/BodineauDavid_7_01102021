@@ -8,17 +8,17 @@
         <p class="post-text">{{ post.text }}</p>
         <div class="section-comment">
             <p class="alert-text" v-if="comment.text.length >= 1"> {{ errors[0] }}</p>
-            <div class="sendText">
-                <textarea type="text" v-model="comment.text" minlength="2" maxlength="255" class="comment" @keyup="checkForm" placeholder="Cliquez ici pour commenter" required/>
+            <div class="sendText" v-if="disabled == false || id == post.id" >
+                <textarea :id="post.id" type="text" v-model="comment.text" minlength="2" maxlength="255" class="comment" @click=" checkId" @keyup="checkForm" @focus="id = post.id" placeholder="Cliquez ici pour commenter" required/>
                 <button class="btn btn-success btn-sm" title="Envoyer un commentaire sur ce post" :disabled="canComment == false" @click="createComment(post.id)">Envoyer</button>
             </div>
         </div>
         <button @click="afficherCom(post.id)" class="btn btn-dark btn-sm btn-comment" title="Afficher les commentaires sous ce post">Commentaires <i class="fas fa-comments"></i></button>
+        <button @click="disabled = false" v-if="disabled == true" class="btn btn-dark btn-sm btn-comment commenter" title="Commenter ce post">Commenter</button>
         <div class="users-comment" v-for="(comment, listComment) in allComments" v-bind:key="listComment">
             <div v-if="post.id == comment.postid">
                 <h6>{{ comment.name }} le {{ comment.date }} <button title="SUPPRIMER LE COMMENTAIRE" class="btn btn-outline-danger btn-sm" @click="deleteComment(comment.id)" v-if="comment.userId == userId || admin == 1"><i class="fas fa-trash"></i></button></h6>
                 <p class="unique-com">{{ comment.text }}</p>
-
             </div>
         </div>
         <div class="moderation" v-if="post.userId == userId || admin == 1">
@@ -46,6 +46,8 @@ export default {
             commentId: "",
             canComment: false,
             errors: [],
+            id: "",
+            disabled: false,
 
             verifUser: {
                 userId: ""
@@ -60,14 +62,20 @@ export default {
         }
     },
     methods: {
+        checkId:function() {
+            console.log(this.id);
+            this.disabled = true;
+        },
         checkForm:function(e) {
             this.errors = [];
-            if (this.errors.length == 0) { this.canComment = true; console.log(this.canComment + "/" + this.errors.length)}
+            if (this.errors.length == 0) { 
+                this.canComment = true; console.log(this.canComment + "/" + this.errors.length)
+            }
             if(!this.comment.text) {
                 this.errors.push("Un texte est obligatoire");
                 this.canComment = false;
             } else if (!this.validComment(this.comment.text)) {
-                this.errors.push("Le texte doit faire entre 2 et 255 caractères");
+                this.errors.push("");
                 this.canComment = false;
             }
             if(!this.errors.length) return true;
@@ -256,6 +264,10 @@ textarea {
 .no-connect {
     font-weight: bold;
     color: red;
+}
+
+.commenter {
+    margin-left: 5px;
 }
 
 </style>
